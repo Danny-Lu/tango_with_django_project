@@ -9,7 +9,10 @@
         <div>
             <a href="/rango/">index</a><br />
         </div>
+    {% if visits %}
+        <p>visits is: {{visits}}</p>
+    {% endif %}
     <div>
-        <img src="{{ MEDIA_URL}}cat.jpg" />
+        <img src="{{ MEDIA_URL}}cat.jpg" alt="Picture of cat"/>
     </div>
 {% endblock %}
