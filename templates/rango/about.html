@@ -6,13 +6,11 @@
 {% endblock %}
 
 {% block body_block%}
-        <div>
-            <a href="/rango/">index</a><br />
-        </div>
     {% if visits %}
         <p>visits is: {{visits}}</p>
     {% endif %}
+    
     <div>
-        <img src="{{ MEDIA_URL}}cat.jpg" alt="Picture of cat"/>
+        <img src="{{MEDIA_URL}}cat.jpg" alt="Picture of cat" />
     </div>
 {% endblock %}
