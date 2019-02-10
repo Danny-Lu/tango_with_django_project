@@ -31,7 +31,11 @@ def about(request):
     # return HttpResponse("Rango says here is the about page. <a href='/rango/'>View index page</a>")
     
     # and replace it with a pointer to ther about.html template using the render method
-    return render(request, 'rango/about.html',{})
+    context_dict={}
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    response = render(request, 'rango/about.html', context=context_dict)
+    return response
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass
@@ -262,14 +266,11 @@ def get_server_side_cookie(request, cookie, default_val=None):
 # Updated the function definition
 def visitor_cookie_handler(request):
     visits = int(get_server_side_cookie(request, 'visits', '1'))
-    last_visit_cookie = get_server_side_cookie(request,
-                                                'last_visit',
-                                                str(datetime.now()))
-    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
-                                        '%Y-%m-%d %H:%M:%S')
+    last_visit_cookie = get_server_side_cookie(request,'last_visit',str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],'%Y-%m-%d %H:%M:%S')
 
     # If it's been more than a day since the last visit...
-    if (datetime.now() - last_visit_time).days > 0:
+    if (datetime.now() - last_visit_time).seconds > 0:
         visits = visits + 1
         #update the last visit cookie now that we have updated the count
         request.session['last_visit'] = str(datetime.now())
@@ -278,15 +279,3 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
     # Update/set the visits cookie
     request.session['visits'] = visits
-
-def visitor_cookie_handler_serverside(request):
-    vistis = int(get_server_side_cookie(request, 'visits', '1'))
-    last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
-    last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
-
-    if (datetime.now() - last_visit_time).days > 0:
-        vistis = vistis + 1
-        request.session['last_visit'] = str(datetime.now())
-    else:
-        request.session['last_visit'] = last_visit_cookie
-    request.session['visits'] = vistis
