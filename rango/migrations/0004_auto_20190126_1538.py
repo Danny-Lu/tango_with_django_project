@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rango', '0002_remove_category_slug'),
+        ('rango', '0003_category_slug'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='category',
             name='slug',
-            field=models.SlugField(blank=True),
+            field=models.SlugField(unique=True),
         ),
     ]
