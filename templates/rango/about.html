@@ -8,6 +8,6 @@
 {% block body_block%}
     <h3><p>visits: {{ visits }}</p></h3>
     <div>
-        <img src="{{MEDIA_URL}}cat.jpg" alt="Picture of cat" />
+        <img src="{% static "images/cat.jpg" %}" alt="Picture of cat" />
     </div>
 {% endblock %}
